@@ -1,5 +1,5 @@
-# jirasoftwaredeploymentusing-ansible-and-docker
-this project describe the step by step approach of deploying jira using ansible playbook
+
+<h2>This project describe the step by step approach of deploying jira using ansible playbook</h2>
 <li>Launch an amazon linux 2, t2.micro instance and call it Ansible-control, create a security group ansible-control-sg, set an inbound rule to allow ssh traffic from IP</li>
 <li>Launch two instances (amazon linux 2, t2.micro) and call it worker-node1 and worker-node 2, set an inbound rule to allow ssh trafocfrom the ansible-control-sg and from an IP</li>
 <li>Log into the three instances using git bash and rename them properly for easy identification</li>
