@@ -36,12 +36,12 @@ sudo systemctl status docker
 <code>mkdir  ~/jira-docker
 cd  ~/jira-docker
 sudo nano docker-compose.yml
-</code> - paste in the code in the screenshot here
+</code>
 <li>Create directories and files in the control node for the ansible playbook</li>
 <code>mkdir ~/ansible-playbooks
 cd ~/ansible-playbooks
 sudo nano deploy-jira.yml
-</code> -paste in the code in the screenshot here
+</code> 
 <li>Ensure you’re in the right file path cd/ansible-playbooks/deploy-jira.yml, run the playbook</li>
 <code>ansible-playbook deploy-jira.yml</code>
 <li>You can view and set up the jira app using the public ip address of any of the worker node on port 8080 and complete the setup</li>
