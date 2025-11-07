@@ -1,0 +1,56 @@
+---
+- name: Deploy Jira via Docker Compose on Amazon Linux 2023
+  hosts: webservers
+  become: true
+  vars:
+    jira_project_dir: /opt/jira
+    compose_version: "v2.27.1"
+    compose_url: "https://github.com/docker/compose/releases/download/{{ compose_version }}/docker-compose-linux-x86_64"
+
+  tasks:
+    # 1. Install Docker engine
+    - name: Install Docker engine
+      ansible.builtin.dnf:
+        name: docker
+        state: present
+
+    # 2. Ensure Docker service is started and enabled
+    - name: Ensure Docker service is running
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: yes
+
+    # 3. Create CLI plugin directory for Docker Compose v2
+    - name: Create CLI plugin directory for Docker Compose v2
+      ansible.builtin.file:
+        path: /usr/local/lib/docker/cli-plugins
+        state: directory
+        mode: '0755'
+
+    # 4. Install Docker Compose v2 plugin
+    - name: Install Docker Compose v2 plugin
+      ansible.builtin.get_url:
+        url: "{{ compose_url }}"
+        dest: /usr/local/lib/docker/cli-plugins/docker-compose
+        mode: '0755'
+
+    # 5. Create Jira project directory
+    - name: Create Jira project directory
+      ansible.builtin.file:
+        path: "{{ jira_project_dir }}"
+        state: directory
+        mode: '0755'
+
+    # 6. Copy your Compose file from control node to target node
+    - name: Copy Docker Compose file from local to remote
+      ansible.builtin.copy:
+        src: "{{ lookup('env', 'HOME') }}/jira-docker/docker-compose.yml"
+        dest: "{{ jira_project_dir }}/docker-compose.yml"
+        mode: '0644'
+
+    # 7. Deploy Jira stack using Docker Compose v2
+    - name: Deploy Jira stack
+      community.docker.docker_compose_v2:
+        project_src: "{{ jira_project_dir }}"
+        state: present
