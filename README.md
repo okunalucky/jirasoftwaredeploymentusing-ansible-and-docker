@@ -153,3 +153,5 @@ sudo nano deploy_jira.yml
         project_src: "{{ jira_project_dir }}"
         state: present
 </code>
+<p>in thesame file path of the ansible playbook, you can now run the playbook <code>ansible-playbook deploy_jira.yml </code></p>
+<p>log in to aws console, open port 8080 on the worker node and run <code>@publicipaddress:8080</code> to complete the jira installation</p>
