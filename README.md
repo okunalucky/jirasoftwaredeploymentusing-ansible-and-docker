@@ -23,5 +23,21 @@ set permission
 chmod 700 ~/.ssh
 copy the key pair generated 
 ssh-copy-id -i ~/.ssh/my-key-pair.pub ec2-user@remote-server-ip
-</code></l1>
-<link>ssh-keygen -t rsa </link>
+</code></l1> 
+<h1>install ansible in the master node</h1>
+<li><code>sudo dnf install -y ansible-core
+</code></li>
+<p>log in as a root user</p> 
+<code>sudo su</code>code>
+navigate to the home directory of the root user 
+<code>
+<code>cd ~
+cd /etc/ansible
+sudo nano hosts</code>code>
+</code>
+<code>
+  [webservers]
+172.31.24.254
+[webservers:vars]
+ansible_user=ansible
+ansible_ssh_private_key_file=/home/ansible/.ssh/id_rsa</code>
