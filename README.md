@@ -58,6 +58,7 @@ cd jira-docker
 sudo nano docker-compose.yml
 </code>
 <h3>this is the docker compose file</h3>
+
 <code>
   version: '3'
 services:
@@ -84,6 +85,7 @@ services:
 volumes:
   jira-data:
   db-data:
+  
 </code>
 <p>in the home directory of the ansible user <code>ansible-galaxy collection install community.docker --force
 </code></p>
