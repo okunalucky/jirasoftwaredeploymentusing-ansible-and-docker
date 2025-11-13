@@ -1,3 +1,7 @@
+# JIRA DEPLOYMENT USING ANISBLE AND DOCKER
+
+<img width="841" height="581" alt="Image" src="https://github.com/user-attachments/assets/dea24528-96a2-42aa-8132-3c828090bfd7" />
+
 <h3>Creating the instances</h3>
 <li>create two instances, master node and worker node, in the master node, create a security group called master-sg and allow inbound traffic from IP. in the worker node, allow traffic from the master sg and from ip
 </li>
