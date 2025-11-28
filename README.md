@@ -63,7 +63,7 @@ sudo nano docker-compose.yml
 </code>
 <h3>this is the docker compose file</h3>
 
-<code>
+```sh
   version: '3'
 services:
   jira:
@@ -89,16 +89,17 @@ services:
 volumes:
   jira-data:
   db-data:
-  
-</code>
-<p>in the home directory of the ansible user <code>ansible-galaxy collection install community.docker --force
-</code></p>
-<h3>create the playbook</h3>
-<code>cd ~
+```  
+
+- In the home directory of the ansible user <code>ansible-galaxy collection install community.docker --force
+- Create the playbook
+
+```sh
+cd ~
 mkdir ansible-playbook
 cd ansible-playbook 
 sudo nano deploy_jira.yml
-</code>
+```
 
 
 ```sh  
