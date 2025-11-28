@@ -99,8 +99,10 @@ mkdir ansible-playbook
 cd ansible-playbook 
 sudo nano deploy_jira.yml
 </code>
-<code>
-  ---
+
+
+```sh  
+---
 - name: Deploy Jira via Docker Compose on Amazon Linux 2023
   hosts: webservers
   become: true
@@ -156,7 +158,9 @@ sudo nano deploy_jira.yml
       community.docker.docker_compose_v2:
         project_src: "{{ jira_project_dir }}"
         state: present
-</code>
+```
+      
+
 <p>in thesame file path of the ansible playbook, you can now run the playbook <code>ansible-playbook deploy_jira.yml </code></p>
 
 # EXECUTED PLAYBOOK
