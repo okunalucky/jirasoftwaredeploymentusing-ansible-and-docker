@@ -2,69 +2,90 @@
 
 <img width="841" height="581" alt="Image" src="https://github.com/user-attachments/assets/dea24528-96a2-42aa-8132-3c828090bfd7" />
 
-<h3>Creating the instances</h3>
-<li>create two instances, master node and worker node, in the master node, create a security group called master-sg and allow inbound traffic from IP. in the worker node, allow traffic from the master sg and from ip
-</li>
-<h3>log into the two instances and rename the instances to easily identify them </h3>
-<code>sudo su
+- Creating the instances
+- Create two instances, master node and worker node, in the master node, create a security group called master-sg and allow inbound traffic from IP. in the worker node, allow traffic from the master sg and from ip
+- log into the two instances and rename the instances to easily identify them 
+
+```sh
+sudo su
 sudo nano/etc/hostname
-reboot</code>
-<h3>create ansible as a common user for the two servers and also set a password </h3>
-<code>useradd ansible
+reboot
+```
+- Create ansible as a common user for the two servers and also set a password 
+
+```sh
+useradd ansible
 passwd ansible 
-</code>
-<h3>allow password authentication and permit root log in</h3>
-<code>sudo nano /tc/ssh/seshd_config
+```
+- Allow password authentication and permit root log in
+```sh
+sudo nano /tc/ssh/seshd_config
 restart ssh service 
 sudo systemctl restart sshd
-</code>
-<h3>add ansible to the sudoers group </h3>
-<code>sudo nano/etc/sudoers
-</code>
-<h3>create a key pair in the master node such that ansible user can navigate to the worker node without password </h3>
-<code>ssh-keygen -t rsa 
-set permission 
+```
+
+- Add ansible to the sudoers group
+```sh
+sudo nano/etc/sudoers
+```
+- Create a key pair in the master node such that ansible user can navigate to the worker node without password 
+```sh
+ssh-keygen -t rsa 
+```
+- Set permission 
+```sh
 chmod 700 ~/.ssh
 copy the key pair generated 
 ssh-copy-id -i ~/.ssh/my-key-pair.pub ec2-user@remote-server-ip
-</code> 
-<h3>install ansible in the master node</h3>
-<code>sudo dnf install -y ansible-core
-</code>
-<p>log in as a root user</p> 
-<code>sudo su</code>code>
-navigate to the home directory of the root user 
-<code>
-<code>cd ~
+``` 
+- Install ansible in the master node
+```sh
+sudo dnf install -y ansible-core
+```
+- Log in as a root user 
+```sh
+sudo su
+```
+- Navigate to the home directory of the root user
+```sh
+cd ~
 cd /etc/ansible
-sudo nano hosts</code>code>
-</code>
-<code>
+sudo nano hosts
+```
+- Paste below content and edit Ip as per yours
+```sh
   [webservers]
 172.31.24.254
 [webservers:vars]
 ansible_user=ansible
-ansible_ssh_private_key_file=/home/ansible/.ssh/id_rsa</code>
-<h1>ping the ip address to see if it will respond</h1>
-<code>sudo su ansible
+ansible_ssh_private_key_file=/home/ansible/.ssh/id_rsa
+```
+
+- Ping the ip address to see if it will respond
+```sh
+sudo su ansible
 cd ~
 ansible all -m ping 
-</code>
-<h3>install docker in the worker node</h3>
-<code>sudo dnf install -y docker
+```
+- Install docker in the worker node
+```sh
+sudo dnf install -y docker
 sudo systemctl start docker
 sudo systemctl enable docker
-</code>
-<h3>navigate to the home directory of the master node</h3>
-<code>cd ~
+```
+
+- Navigate to the home directory of the master node
+```sh
+cd ~
 mkdir jira-docker
 cd jira-docker
 sudo nano docker-compose.yml
-</code>
-<h3>this is the docker compose file</h3>
+```
 
-```sh
-  version: '3'
+- Paste in the below content
+
+```yaml
+version: '3'
 services:
   jira:
     image: atlassian/jira-software:latest  # Pull the latest Jira Software image
@@ -91,18 +112,20 @@ volumes:
   db-data:
 ```  
 
-- In the home directory of the ansible user <code>ansible-galaxy collection install community.docker --force
+- In the home directory of the ansible user
+```sh
+ansible-galaxy collection install community.docker --force
+```
 - Create the playbook
-
 ```sh
 cd ~
 mkdir ansible-playbook
 cd ansible-playbook 
 sudo nano deploy_jira.yml
 ```
+- Paste below the content of the playbook
 
-
-```sh  
+```yaml
 ---
 - name: Deploy Jira via Docker Compose on Amazon Linux 2023
   hosts: webservers
@@ -162,8 +185,10 @@ sudo nano deploy_jira.yml
 ```
       
 
-<p>in thesame file path of the ansible playbook, you can now run the playbook <code>ansible-playbook deploy_jira.yml </code></p>
-
+- In the same file path of the ansible playbook, you can now run the playbook
+```yaml
+ansible-playbook deploy_jira.yml
+```
 # EXECUTED PLAYBOOK
 ![Image](https://github.com/user-attachments/assets/839d7ab3-7388-4abb-8a4c-ab83a5bf9196)
 <p>log in to aws console, open port 8080 on the worker node and run <code>@publicipaddress:8080</code> to complete the jira installation</p>
